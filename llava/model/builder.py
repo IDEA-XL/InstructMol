@@ -114,7 +114,6 @@ def load_pretrained_model(
                     cfg_pretrained = update_pretrained_config(cfg_pretrained, mm_encoder_cfg)
                 # currently changed to LlavaGraphLlamaForCausalLM
                 model = LlavaGraphLlamaForCausalLM.from_pretrained(model_base, low_cpu_mem_usage=True, config=cfg_pretrained, **kwargs)
-                # model = LlavaLlamaForCausalLM.from_pretrained(model_base, low_cpu_mem_usage=True, config=cfg_pretrained, **kwargs)
 
             mm_projector_weights = torch.load(os.path.join(model_path, 'mm_projector.bin'), map_location='cpu')
             mm_projector_weights = {k: v.to(torch.float16) for k, v in mm_projector_weights.items()}

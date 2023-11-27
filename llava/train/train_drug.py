@@ -50,6 +50,7 @@ class ModelArguments:
     graph_pooling: str = field(default='mean')
     init_checkpoint: Optional[str] = field(default=None)
     pretrain_mm_mlp_adapter: Optional[str] = field(default=None)
+    mm_projector_type: Optional[str] = field(default='linear')
     mm_use_im_start_end: bool = field(default=False)
     mm_use_im_patch_token: bool = field(default=True)
 
@@ -402,9 +403,32 @@ def train():
 
     data_module = make_supervised_data_module(tokenizer=tokenizer,
                                               data_args=data_args)
+    # save callback
+    from transformers import TrainerCallback
+    class SaveCallback(TrainerCallback):
+        def on_save(self, args, state, control, **kwargs):
+            checkpoint_dir = os.path.join(args.output_dir, 'checkpoint-{}'.format(state.global_step))
+            if args.lora_enable:
+                state_dict = get_peft_state_maybe_zero_3(
+                    model.named_parameters(), training_args.lora_bias
+                )
+                non_lora_state_dict = get_peft_state_non_lora_maybe_zero_3(
+                    model.named_parameters()
+                )
+                if args.local_rank in [-1, 0]:
+                    model.config.save_pretrained(checkpoint_dir)
+                    model.save_pretrained(checkpoint_dir, state_dict=state_dict)
+                    torch.save(non_lora_state_dict, os.path.join(checkpoint_dir, 'non_lora_trainables.bin'))
+    # summary model parameter size
+    if training_args.local_rank in [-1, 0]:
+        from transformers import logging
+        logging.set_verbosity_info()
+        print(model.num_parameters())
+    
     trainer = LLaVATrainer(model=model,
                     tokenizer=tokenizer,
                     args=training_args,
+                    callbacks=[SaveCallback()],
                     **data_module)
 
     if list(pathlib.Path(training_args.output_dir).glob("checkpoint-*")):

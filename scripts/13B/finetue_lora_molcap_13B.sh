@@ -4,7 +4,7 @@
 
 ################## VICUNA ##################
 PROMPT_VERSION=v1
-MODEL_VERSION="vicuna-v1-3-7b"
+MODEL_VERSION="vicuna-v1-3-13b"
 ################## VICUNA ##################
 
 ################## LLaMA-2 ##################
@@ -21,7 +21,7 @@ else
     echo "Not supported graph tower"
 fi
 
-CHECKPOINT_FOLDER_PREFIX="./checkpoints/Graph-LLaVA"
+CHECKPOINT_FOLDER_PREFIX="./checkpoints/Graph-LLaVA-13B"
 TASK="molcap"
 
 deepspeed llava/train/train_mem.py \
@@ -32,12 +32,12 @@ deepspeed llava/train/train_mem.py \
     --data_path /cto_labs/AIDD/DATA/MolT5/ChEBI-20_data/train.pkl \
     --graph_tower $GRAPH_TOWER \
     --init_checkpoint $INIT_CHECKPOINT_GNN \
-    --pretrain_mm_mlp_adapter $CHECKPOINT_FOLDER_PREFIX/llava-$GRAPH_TOWER-$MODEL_VERSION-pretrain/checkpoint-48000/mm_projector.bin \
+    --pretrain_mm_mlp_adapter $CHECKPOINT_FOLDER_PREFIX/llava-$GRAPH_TOWER-$MODEL_VERSION-pretrain/mm_projector.bin \
     --mm_use_im_start_end False \
     --mm_use_im_patch_token False \
     --bf16 True \
     --output_dir $CHECKPOINT_FOLDER_PREFIX/$TASK-llava-$GRAPH_TOWER-$MODEL_VERSION-finetune_lora \
-    --num_train_epochs 50 \
+    --num_train_epochs 20 \
     --per_device_train_batch_size 16 \
     --per_device_eval_batch_size 4 \
     --gradient_accumulation_steps 1 \

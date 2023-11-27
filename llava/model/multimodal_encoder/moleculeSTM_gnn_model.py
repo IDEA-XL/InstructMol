@@ -185,7 +185,6 @@ class GNN_graphpred(nn.Module):
         if init_checkpoint is not None:
             self._load_state_dict(init_checkpoint, strict=False)
 
-    @torch.no_grad()
     def forward(self, *argv):
         if len(argv) == 4:
             x, edge_index, edge_attr, batch = argv[0], argv[1], argv[2], argv[3]
@@ -199,9 +198,14 @@ class GNN_graphpred(nn.Module):
         graph_representation = self.pool(node_representation, batch)
         return graph_representation, node_representation
     
-    def encode_mol(self, mol, proj=False, return_node_feats=False):
-        self.molecule_node_model.eval() # hard code: set to eval mode
-        h_graph, h_node = self.forward(mol)
+    def encode_mol(self, mol, proj=False, return_node_feats=False, eval=True):
+        if eval:
+            self.molecule_node_model.eval() # hard code: set to eval mode
+            with torch.no_grad():
+                h_graph, h_node = self.forward(mol)
+        else:
+            self.molecule_node_model.train() # set to train mode
+            h_graph, h_node = self.forward(mol)
         if proj and self.projector is not None:
             h_graph = self.projector(h_graph)
             h_node = self.projector(h_node)

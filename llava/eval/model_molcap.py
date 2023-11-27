@@ -18,6 +18,7 @@ from llava.datasets.smiles2graph import smiles2graph
 from typing import Dict
 from transformers import TextStreamer
 from torch_geometric.data import Data
+import selfies
 
 
 MOLCAP_INSTRUCTIONS = [
@@ -39,6 +40,14 @@ def _convert_dict_to_Data(data_dict: Dict) -> Data:
     )
     
 
+def smiles2selfies(smiles_str):
+    try:
+        selfies_str = selfies.encoder(smiles_str)
+    except:
+        selfies_str = None
+    return selfies_str
+    
+
 def iterate_test_files(
     args, 
     skip_first_line:bool=False,
@@ -52,11 +61,16 @@ def iterate_test_files(
         for i, line in enumerate(f.readlines()):
             line = line.rstrip("\n").split("\t")
             cid, smi, gt = line
+            instruction = random.choice(MOLCAP_INSTRUCTIONS)
+            if args.add_selfies:
+                selfies_str = smiles2selfies(smi)
+                if selfies_str is not None:
+                    instruction += f" The compound SELFIES sequence is: {selfies_str}."
             if convert_smiles_to_graph:
                 graph = smiles2graph(smi)
-                batch.append((cid, graph, gt))
+                batch.append((cid, instruction, graph, gt))
             else:
-                batch.append((cid, smi, gt))
+                batch.append((cid, instruction, smi, gt))
             if len(batch) == batch_size:
                 yield zip(*batch)
                 batch = []
@@ -92,7 +106,7 @@ def main(args):
     batch_size = args.batch_size
     outs = []
     
-    for cids, graphs, gts in tqdm(
+    for cids, instructions, graphs, gts in tqdm(
         iterate_test_files(args, skip_first_line=True, convert_smiles_to_graph=True, batch_size=batch_size),
         total=_length_test_file(args, skip_first_line=True)//batch_size,
     ):  
@@ -101,8 +115,8 @@ def main(args):
         cur_prompts = []
         input_ids_batch = []
         stopping_criteria_batch = []
-        for _ in range(bs):
-            cur_prompt = random.choice(MOLCAP_INSTRUCTIONS)
+        for idx in range(bs):
+            cur_prompt = instructions[idx]
             qs = cur_prompt
             if model.config.mm_use_im_start_end:
                 qs = DEFAULT_IM_START_TOKEN + DEFAULT_IMAGE_TOKEN + DEFAULT_IM_END_TOKEN + '\n' + qs
@@ -237,6 +251,7 @@ if __name__ == "__main__":
     parser.add_argument("--load-4bit", action="store_true")
     parser.add_argument("--debug", action="store_true")
     parser.add_argument("--batch_size", type=int, default=4)
+    parser.add_argument("--add_selfies", action="store_true")
     args = parser.parse_args()
     main(args)
 

@@ -6,21 +6,30 @@ from typing import Dict, Optional, Sequence, List
 import torch
 from torch.utils.data import Dataset
 import transformers
+import selfies
 from .preprocess import preprocess, preprocess_multimodal
 
+def smiles2selfies(smiles_str):
+    try:
+        selfies_str = selfies.encoder(smiles_str)
+    except:
+        selfies_str = None
+    return selfies_str
 
 class MoleculeNetSupervisedGraphDataset(Dataset):
+    add_selfies = False
     def __init__(self, 
                  data_path: str,
                  tokenizer: transformers.PreTrainedTokenizer,
                  data_args,
                 ):
         super(MoleculeNetSupervisedGraphDataset, self).__init__()
-    
         self.dataspace = data_path
         self.tokenizer = tokenizer
         self.list_data_dict = self._load_pickle()
         self.data_args = data_args
+        if self.add_selfies:
+            print("WARNING: Add SELFIES to the instruction")
         
     def _load_pickle(self):
         # load "bace" "bbbp" "hiv" three datasets
@@ -37,6 +46,9 @@ class MoleculeNetSupervisedGraphDataset(Dataset):
     def __getitem__(self, i) -> Dict[str, torch.Tensor]:
         raw = self.list_data_dict[i]
         instruction = raw['instruction']
+        if self.add_selfies:
+            selfies_str = smiles2selfies(raw['SMILES'])
+            instruction += f" The compound SELFIES sequence is: {selfies_str}"
         if random.random() < 0.5:
             instruction = "<image>\n" + instruction
         else:

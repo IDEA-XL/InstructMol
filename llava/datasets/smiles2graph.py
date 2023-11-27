@@ -10,6 +10,7 @@ from tqdm import tqdm
 import random
 from typing import Dict
 from rdkit.Chem.rdchem import BondType, BondDir, ChiralType
+import selfies as sf
 
 
 BOND_TYPE = {BondType.SINGLE: 0, BondType.DOUBLE: 1, BondType.TRIPLE: 2, BondType.AROMATIC: 3}
@@ -90,7 +91,7 @@ def smiles2graph(smiles_string)->Dict:
     return graph 
 
 
-def construct_instruct_question():
+def construct_instruct_question(selfies_str:str=None):
     """
     Construct instruct question for each graph
     """
@@ -104,6 +105,8 @@ def construct_instruct_question():
         'What can you tell me about this molecule?'
     ]
     question = random.choice(question_pools)
+    if selfies_str is not None:
+        question += f" The compound SELFIES sequence is: {selfies_str}."
     if random.random() < 0.5:
         question = "<image>\n" + question
     else:
@@ -139,7 +142,7 @@ def convert_chembl(qa_json, out_dir=None):
         pickle.dump(out, f)
         
         
-def convert_chebi20(txt, out_dir=None):
+def convert_chebi20(txt, out_dir=None, add_selfies=False):
     assert os.path.exists(txt), f"{txt} not exists"
     qa_name = os.path.basename(txt).split(".")[0]
     out = []
@@ -147,11 +150,17 @@ def convert_chebi20(txt, out_dir=None):
         f.readline()
         for i, line in enumerate(f.readlines()):
             cid, smi, desc = line.strip().split("\t")
+            selfies_str = None
+            if add_selfies:
+                try:
+                    selfies_str = sf.encoder(smi)
+                except:
+                    selfies_str = ""
             graph = smiles2graph(smi)
             out.append({
                 "graph": graph, 
                 "conversations": [
-                    {"from": "human", "value": construct_instruct_question() },
+                    {"from": "human", "value": construct_instruct_question(selfies_str) },
                     {"from": "gpt", "value": desc}
                 ],
             })
@@ -160,6 +169,9 @@ def convert_chebi20(txt, out_dir=None):
         out_dir = os.path.dirname(txt)
     if not os.path.exists(out_dir):
         os.makedirs(out_dir)
+    
+    if add_selfies:
+        qa_name += "+selfies"
     with open(os.path.join(out_dir, qa_name+'.pkl'), "wb") as f:
         pickle.dump(out, f)
         
@@ -170,5 +182,7 @@ if __name__ == '__main__':
     # print(graph)
     # qa_json = '/comp_robot/rentianhe/caohe/AIDD/DATA/MolFM/pubcgraphemsft_desc/test.json'
     # convert_chembl(qa_json)
-    txt = '/shared_space/caohe/AIDD/DATA/MolT5/ChEBI-20_data/validation.txt'
-    convert_chebi20(txt)
+    
+    for split in ['train', 'test', 'validation']:
+        txt = f'/cto_labs/AIDD/DATA/MolT5/ChEBI-20_data/{split}.txt'
+        convert_chebi20(txt, add_selfies=True)

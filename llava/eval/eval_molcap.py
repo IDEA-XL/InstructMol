@@ -39,6 +39,13 @@ def test_molcap_from_file(file, args):
             rouge_scores.append(scorer.score(gt, pred))
     bleu2 = corpus_bleu(gt_tokens, output_tokens, weights=(0.5, 0.5))
     bleu4 = corpus_bleu(gt_tokens, output_tokens, weights=(0.25, 0.25, 0.25, 0.25))
+    
+    # extract top-10 meteor scores
+    meteor_scores = np.array(meteor_scores)
+    Start,K = 500,100
+    idxes = np.argsort(meteor_scores)[::-1][Start:Start+K]
+    cids = [log['cid'] for i,log in enumerate(json.load(open(file, "r"))) if i in idxes]
+    cids.sort(key=lambda x: int(x))
 
     return {
         "BLEU-2": bleu2,

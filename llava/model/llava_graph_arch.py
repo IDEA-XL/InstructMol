@@ -19,6 +19,7 @@ import torch
 import torch.nn as nn
 
 from .multimodal_encoder.builder import build_graph_tower
+from .multimodal_projector.builder import build_xmodal_projector
 
 from llava.constants import IGNORE_INDEX, IMAGE_TOKEN_INDEX, DEFAULT_IMAGE_PATCH_TOKEN, DEFAULT_IM_START_TOKEN, DEFAULT_IM_END_TOKEN
 
@@ -30,7 +31,7 @@ class LlavaMetaModel:
 
         if hasattr(config, "mm_graph_tower"):
             self.graph_tower = build_graph_tower(config)
-            self.mm_projector = nn.Linear(config.mm_hidden_size, config.hidden_size)
+            self.mm_projector = build_xmodal_projector(config)
 
     def get_graph_tower(self):
         graph_tower = getattr(self, 'graph_tower', None)
@@ -52,10 +53,15 @@ class LlavaMetaModel:
             self.graph_tower = graph_tower
 
         self.config.use_mm_proj = True
+        self.config.mm_projector_type = getattr(model_args, 'mm_projector_type', 'linear')
         self.config.mm_hidden_size = graph_tower.hidden_size
 
         if not hasattr(self, 'mm_projector'):
-            self.mm_projector = nn.Linear(self.config.mm_hidden_size, self.config.hidden_size)
+            self.mm_projector = build_xmodal_projector(self.config)
+        else:
+            # In case it is frozen by LoRA
+            for p in self.mm_projector.parameters():
+                p.requires_grad = True
 
         if pretrain_mm_mlp_adapter is not None:
             mm_projector_weights = torch.load(pretrain_mm_mlp_adapter, map_location='cpu')

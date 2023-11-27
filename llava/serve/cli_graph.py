@@ -26,23 +26,13 @@ def main(args):
     # device
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     
-    # Input SMILES
-    smiles = None
-    while not smiles or not check_smiles_validity(smiles):
-        print("Invalid SMILES")
-        smiles = input("Please enter a valid SMILES: ")
-    graph = smiles2graph(smiles)
-    graph_tensor = [_convert_dict_to_Data(graph).to(device)]
-    
     # Model
     disable_torch_init()
-
     model_name = get_model_name_from_path(args.model_path)
-    
     # graph encoder config
     mm_encoder_cfg = MM_ENCODER_CFG(init_checkpoint=args.graph_checkpoint_path)
     mm_encoder_cfg = mm_encoder_cfg.dict()
-    
+    # load model
     tokenizer, model, _, context_len = load_pretrained_model(args.model_path, args.model_base, model_name, args.load_8bit, args.load_4bit, mm_encoder_cfg=mm_encoder_cfg)
 
     if 'llama-2' in model_name.lower():
@@ -64,15 +54,31 @@ def main(args):
         roles = ('user', 'assistant')
     else:
         roles = conv.roles
+        
+    # Input SMILES
+    smiles = None
+    while not smiles or not check_smiles_validity(smiles):
+        smiles = input("Please enter a valid SMILES: ")
+    graph = smiles2graph(smiles)
+    graph_tensor = [_convert_dict_to_Data(graph).to(device)]
 
     while True:
         try:
             inp = input(f"{roles[0]}: ")
         except EOFError:
             inp = ""
-        if not inp:
+        if inp.lower() in ["quit", "exit"]:
             print("exit...")
             break
+        elif inp == "reset":
+            conv = conv_templates[args.conv_mode].copy()
+            print("reset conversation...")
+            smiles = None
+            while not smiles or not check_smiles_validity(smiles):
+                smiles = input("Please enter a valid SMILES: ")
+            graph = smiles2graph(smiles)
+            graph_tensor = [_convert_dict_to_Data(graph).to(device)]
+            continue
 
         print(f"{roles[1]}: ", end="")
 
@@ -129,3 +135,11 @@ if __name__ == "__main__":
     parser.add_argument("--debug", action="store_true")
     args = parser.parse_args()
     main(args)
+
+
+"""
+python -m llava.serve.cli_graph \
+    --model-path checkpoints/Graph-LLaVA/molcap-llava-moleculestm-vicuna-v1-3-7b-finetune_lora \
+    --graph-checkpoint-path checkpoints/MoleculeSTM/molecule_model.pth \
+    --model-base checkpoints/vicuna-v1-3-7b \
+"""

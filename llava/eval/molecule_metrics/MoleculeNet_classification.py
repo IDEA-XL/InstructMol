@@ -32,6 +32,13 @@ def selfies2smiles(selfies_str):
         smiles_str = None
     return smiles_str
 
+def smiles2selfies(smiles_str):
+    try:
+        selfies_str = selfies.encoder(smiles_str)
+    except:
+        selfies_str = None
+    return selfies_str
+
 def convert_label_to_int(label):
     label = label.strip()
     if label.lower() in ['active', "yes", "true"]:
@@ -47,13 +54,19 @@ def iterate_test_files(
     args, 
     batch_size:int=4,
 )->Generator:
-    in_file = os.path.join(args.dataspace, args.dataset, "processed", "instruct-test.pkl")
+    if args.split == "random":
+        in_file = os.path.join(args.dataspace, args.dataset, "processed", "instruct-random-test.pkl")
+    else:
+        in_file = os.path.join(args.dataspace, args.dataset, "processed", "instruct-test.pkl")
     with open(in_file, "rb") as f:
         list_data_dict = pickle.load(f)
         
         batch = []
         for i, raw in enumerate(list_data_dict):
             instruction = raw['instruction']
+            if args.add_selfies:
+                selfies_str = smiles2selfies(raw['SMILES'])
+                instruction += f" The compound SELFIES sequence is: {selfies_str}"
             graph = raw['graph']
             batch.append((instruction, graph, raw['label']))
             if len(batch) == batch_size:
@@ -179,6 +192,8 @@ if __name__ == "__main__":
     parser.add_argument("--load-4bit", action="store_true")
     parser.add_argument("--debug", action="store_true")
     parser.add_argument("--batch_size", type=int, default=4)
+    parser.add_argument("--split", type=str, default="random")
+    parser.add_argument("--add_selfies", action="store_true")
     args = parser.parse_args()
     main(args)
 
