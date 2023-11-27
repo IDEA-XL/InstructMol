@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="InstructMol: Multi-Modal Integration for Building a Versatile and Reliable Molecular Assistant in Drug Discovery.">
+  <meta name="keywords" content="InstructMol">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>InstructMol: Multi-Modal Integration for Building a Versatile and Reliable Molecular Assistant in Drug Discovery</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/xl.png">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://github.com/CiaoHe">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+
+      <!-- <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://hypernerf.github.io">
+            HyperNeRF
+          </a>
+          <a class="navbar-item" href="https://nerfies.github.io">
+            Nerfies
+          </a>
+          <a class="navbar-item" href="https://latentfusion.github.io">
+            LatentFusion
+          </a>
+          <a class="navbar-item" href="https://photoshape.github.io">
+            PhotoShape
+          </a>
+        </div>
+      </div> -->
+    </div>
+
+  </div>
+</nav>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">InstructMol: Multi-Modal Integration for Building a Versatile and Reliable Molecular Assistant in Drug Discovery</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://github.com/CiaoHe">He CAO</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="https://utkarshsinha.com">Zijing Liu</a><sup>2</sup>,</span>
+            <span class="author-block">
+              <a href="https://jonbarron.info">Xingyu Lu</a><sup>2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="http://sofienbouaziz.com">Yuan Yao</a><sup>2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://www.danbgoldman.com">Yu Li</a><sup>2</sup>,
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>Hong Kong University of Science and Technology,</span>
+            <span class="author-block"><sup>2</sup>Tsinghua University</span>
+            <span class="author-block"><sup>3</sup>International Digital Economy Academy (IDEA)</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://github.com/IDEA-XL/InstructMol"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://github.com/IDEA-XL/InstructMol"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://github.com/IDEA-XL/InstructMol"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+              <!-- Dataset Link. -->
+              <span class="link-block">
+                <a href="https://github.com/IDEA-XL/InstructMol"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="far fa-images"></i>
+                  </span>
+                  <span>Data(coming soon)</span>
+                  </a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+          <div class="column is-full-width">
+              <h2 class="title is-2">Overview</h2>
+              <div class="publication-video">
+                <img class="columns is-centered has-text-centered" src="static/images/teaser.png" alt="Teaser" width="95%"
+                style="margin:0 auto">
+              </div>
+          </div>
+      </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+      <!-- Abstract. -->
+      <div class="columns is-centered has-text-centered">
+          <div class="column is-four-fifths">
+              <h2 class="title is-2">Abstract</h2>
+              <div class="content has-text-justified">
+                  <p>
+                    The rapid evolution of artificial intelligence in drug discovery encounters challenges with generalization and extensive training, yet Large Language Models (LLMs) offer promise in reshaping interactions with complex molecular data. Our novel contribution, <b>InstructMol</b>, a multi-modal LLM, effectively aligns molecular structures with natural language via an instruction-tuning approach, utilizing a two-stage training strategy that adeptly combines limited domain-specific data with molecular and textual information. <b>InstructMol</b> showcases substantial performance improvements in drug discovery-related molecular tasks, surpassing leading LLMs and significantly reducing the gap with specialized models, thereby establishing a robust foundation for a versatile and dependable drug discovery assistant.
+                  </p>
+              </div>
+          </div>
+      </div>
+      <!--/ Abstract. -->
+      <br>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+
+      <div class="columns is-centered has-text-centered">
+          <h2 class="title is-2">Technical Description</h2>
+          <br>
+      </div>
+      
+      <!-- Architecture -->
+  <div class="columns is-centered">
+      <div class="column is-full-width">
+          <h4 class="title is-3">• Motivations and Challenges</h4>
+          <div class="content has-text-justified">
+              <p>
+              <ul>
+                  <li>
+                    Numerous studies have explored multimodal LLMs for visual understanding. However, in molecular research, key challenges include integrating molecule representations with LLMs and text, compiling comprehensive datasets, and devising effective training methods for LLMs to adapt to diverse tasks. Prior studies fine-tuned generalist LLMs for the molecular domain. Despite improving upon the original models, these works revealed issues:
+                    <ul>
+                      <li>Inadequate alignment between modalities.</li>
+                      <li>Lack of exploration for an optimal molecular structure encoder.</li>
+                      <li>Rudimentary training pipeline design neglecting LLMs' knowledge update.</li>
+                    </ul>
+                    These issues contribute to a notable performance gap between current AI assistants and traditional specialist models in practical tasks.
+                  </li>
+                  <li>
+                    Our solution, <b>InstructMol</b>, is a multi-modal instruction-tuning LLM that aligns molecular modality and text. It employs calibrated instruction datasets and a two-stage training scheme to align molecule information with natural language. The model enhances LLM understanding of molecular data and significantly improves performance in drug discovery tasks, bridging the gap with specialized models. Key contributions include introducing InstructMol, efficient extraction of molecular representations, and substantial improvement over state-of-the-art LLMs in practical assessments for drug discovery.
+                  </li>
+              </ul>
+              </p>
+              <br>
+          </div>
+          <br/>
+
+      </div>
+  </div>
+
+      <!-- Trainging Pipeline -->
+      <div class="columns is-centered">
+          <div class="column is-full-width">
+              <h4 class="title is-3">• InstructMol's Architecture and Training Pipeline</h4>
+              The diagram presented below provides an overview of the architectural design of the InstructMol model, along with its two-stage training paradigm. The example molecule in the figure is <a href="https://pubchem.ncbi.nlm.nih.gov/compound/Terephthalaldehyde">Terephthalaldehyde (CID 12173).</a> 
+              <div class="content has-text-justified">
+                  <br>
+                  <p>
+                  <ul>
+                      <img class="columns is-centered has-text-centered" src="static/images/overview.png" alt="Teaser" width="90%" style="margin:0 auto">
+                      <br>
+                      <li>
+                          <b>Stage 1: Alignment Pretraining.</b> The initial stage aligns molecule modalities with text, enabling LLMs to grasp structural and sequential molecular information. We use a dataset from <a href="https://pubchem.ncbi.nlm.nih.gov/">PubChem</a> with 330K molecule-text pairs, applying a self-instruction approach for diverse task descriptions. Training focuses on fine-tuning the alignment projector while freezing the graph encoder and LLM to prevent overfitting and leverage pre-trained knowledge. The goal is for the projector to effectively map graph representations to text tokens.
+                      </li>
+                      <li>
+                          <b>Stage 2: Task-specific Instruction Tuning.</b> In the second stage, we address three drug-discovery-related scenarios: compound property prediction, chemical reaction analysis, and molecule description generation. We utilize specific instruction datasets for each task, designing corresponding instruction templates. Training involves initializing with the alignment projector's parameters from the first stage, keeping the molecular encoder frozen, and updating the projector and LLM weights. We use low-rank adaptation (LoRA) to tailor the LLM for diverse tasks while retaining common-sense reasoning capabilities in dialogue. This adaptable approach allows for different adaptors based on specific needs or their combination for modular knowledge integration.
+                      </li>
+                  </ul>
+                  </p>
+                  <br>
+              </div>
+              <br/>
+
+          </div>
+      </div>
+
+      
+
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+
+      <div class="columns is-centered has-text-centered">
+          <h2 class="title is-2">Demonstrations</h2>
+          <br>
+      </div>
+
+      <div class="columns is-centered">
+          <div class="column is-full-width">
+              <!--        <h2 class="title is-3">Generated Images</h2>-->
+              <br/>
+              <!--            Example-1-->
+              <h3 class="title is-4">• Example-1: Molecule Description Generation</h3>
+              <div class="content has-text-justified">
+
+                <!-- insert image -->
+                <img class="columns is-centered has-text-centered" src="static/images/example/molcap.png" width="60%" style="margin:0 auto">
+              </div>
+              <!--          End  Example-1-->
+
+              <!--            Example-2-->
+              <h3 class="title is-4">• Example-2: Forward Reaction Prediction</h3>
+              <div class="content has-text-justified">
+
+                <!-- insert image -->
+                <img class="columns is-centered has-text-centered" src="static/images/example/forward_reaction_prediction.png" width="60%" style="margin:0 auto">
+              </div>
+              <!--          End  Example-2-->
+
+
+              <!--            Example-3-->
+              <h3 class="title is-4">• Example-3: Reagent Prediction</h3>
+              <div class="content has-text-justified">
+
+                <!-- insert image -->
+                <img class="columns is-centered has-text-centered" src="static/images/example/reagent_prediction.png" width="60%" style="margin:0 auto">
+              </div>
+              <!--          End  Example-3-->
+
+              <!--            Example-4-->
+              <h3 class="title is-4">• Example-4: Retrosynthesis Prediction</h3>
+              <div class="content has-text-justified">
+
+                <!-- insert image -->
+                <img class="columns is-centered has-text-centered" src="static/images/example/retrosynthesis.png" width="60%" style="margin:0 auto">
+              </div>
+              <!--          End  Example-4-->
+          </div>
+      </div>
+
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+
+      <!--    <div class="columns is-centered has-text-centered">-->
+      <!--        <h2 class="title is-2">Demonstrations</h2>-->
+      <!--      <br>-->
+      <!--    </div>-->
+
+      <div class="columns is-centered">
+          <div class="column is-full-width">
+              <h2 class="title is-3">Related Links</h2>
+              <div class="content has-text-justified">
+                  <p>
+                      This work partially draw inspirations from <a href="https://github.com/haotian-liu/LLaVA">LLaVA</a> and 
+                      <a href="https://github.com/zjunlp/Mol-Instructions">Mol-Instructions</a>.
+                      This website is inspired by <a href="https://next-gpt.github.io/">NExT-GPT</a>.
+                  </p>
+              </div>
+          </div>
+      </div>
+
+  </div>
+</section>
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{park2021nerfies,
+  author    = {Park, Keunhong and Sinha, Utkarsh and Barron, Jonathan T. and Bouaziz, Sofien and Goldman, Dan B and Seitz, Steven M. and Martin-Brualla, Ricardo},
+  title     = {Nerfies: Deformable Neural Radiance Fields},
+  journal   = {ICCV},
+  year      = {2021},
+}</code></pre>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a class="icon-link"
+         href="./static/videos/nerfies_paper.pdf">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="https://github.com/keunhong" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+          <p>
+            This means you are free to borrow the <a
+              href="https://github.com/nerfies/nerfies.github.io">source code</a> of this website,
+            we just ask that you link back to this page in the footer.
+            Please remember to remove the analytics code included in the header of the website which
+            you do not want on your website.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
