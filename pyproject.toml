@@ -3,9 +3,9 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "llava"
+name = "InstructMol"
 version = "1.0.1"
-description = "Towards GPT-4 like large language and visual assistant."
+description = "InstructMol: Multi-Modal Integration for Building a Versatile and Reliable Molecular Assistant in Drug Discovery"
 readme = "README.md"
 requires-python = ">=3.8"
 classifiers = [
@@ -27,10 +27,6 @@ dependencies = [
     "einops==0.6.1", "einops-exts==0.0.4", "timm==0.6.13",
     "gradio_client==0.2.9"
 ]
-
-[project.urls]
-"Homepage" = "https://llava-vl.github.io"
-"Bug Tracker" = "https://github.com/haotian-liu/LLaVA/issues"
 
 [tool.setuptools.packages.find]
 exclude = ["assets*", "benchmark*", "docs", "dist*", "playground*", "scripts*", "tests*"]

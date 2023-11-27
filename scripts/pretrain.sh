@@ -2,7 +2,6 @@
 
 # Uncomment and set the following variables correspondingly to run this script:
 MODEL_VERSION=vicuna-v1-3-7b
-# MODEL_VERSION=llama-2-7b-chat
 
 ########### DO NOT CHANGE ###########
 ########### USE THIS FOR BOTH ###########
@@ -18,19 +17,22 @@ else
     echo "Not supported graph tower"
 fi
 
+CHECKPOINT_FOLDER_PREFIX="./checkpoints/Graph-LLaVA"
+DATA_PATH="" # Path to the PubChem dataset
+
 deepspeed llava/train/train_mem.py \
     --deepspeed scripts/zero2.json \
     --model_name_or_path ./checkpoints/$MODEL_VERSION \
     --version $PROMPT_VERSION \
-    --data_path /comp_robot/rentianhe/caohe/AIDD/DATA/MolFM/pubchemsft_desc/train.pkl \
+    --data_path $DATA_PATH \
     --graph_tower $GRAPH_TOWER \
     --init_checkpoint $INIT_CHECKPOINT_GNN \
     --tune_mm_mlp_adapter True \
     --mm_use_im_start_end False \
     --mm_use_im_patch_token False \
     --bf16 True \
-    --output_dir ./checkpoints/llava-$GRAPH_TOWER-$MODEL_VERSION-pretrain \
-    --num_train_epochs 3 \
+    --output_dir $CHECKPOINT_FOLDER_PREFIX/llava-$GRAPH_TOWER-$MODEL_VERSION-pretrain \
+    --num_train_epochs 5 \
     --per_device_train_batch_size 16 \
     --per_device_eval_batch_size 4 \
     --gradient_accumulation_steps 1 \

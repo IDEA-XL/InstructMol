@@ -1,0 +1,1 @@
+/cto_labs/AIDD/DATA/MolT5/ChEBI-20_data/test.txt

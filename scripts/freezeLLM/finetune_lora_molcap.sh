@@ -22,13 +22,14 @@ else
 fi
 
 CHECKPOINT_FOLDER_PREFIX="./checkpoints/Graph-LLaVA-freezeLLM"
+DATA_PATH="" # NOTE: Insert path to data here.(e.g., ChEBI-20_data/train.pkl)
 TASK="molcap"
 
 deepspeed llava/train/train_mem.py \
     --deepspeed scripts/zero2.json \
     --model_name_or_path ./checkpoints/$MODEL_VERSION \
     --version $PROMPT_VERSION \
-    --data_path /cto_labs/AIDD/DATA/MolT5/ChEBI-20_data/train.pkl \
+    --data_path $DATA_PATH \
     --graph_tower $GRAPH_TOWER \
     --init_checkpoint $INIT_CHECKPOINT_GNN \
     --tune_mm_mlp_adapter True \

@@ -19,12 +19,13 @@ else
 fi
 
 CHECKPOINT_FOLDER_PREFIX="./checkpoints/Graph-LLaVA-mlp"
+DATA_PATH="" # NOTE: Insert path to data here.(e.g., pubchemsft_desc/train.pkl)
 
 deepspeed llava/train/train_mem.py \
     --deepspeed scripts/zero2.json \
     --model_name_or_path ./checkpoints/$MODEL_VERSION \
     --version $PROMPT_VERSION \
-    --data_path /cto_labs/AIDD/DATA/MolFM/pubchemsft_desc/train.pkl \
+    --data_path $DATA_PATH \
     --graph_tower $GRAPH_TOWER \
     --init_checkpoint $INIT_CHECKPOINT_GNN \
     --mm_projector_type mlp2x_gelu \
