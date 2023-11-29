@@ -1,9 +1,9 @@
 # InstructMol: Multi-Modal Integration for Building a Versatile and Reliable Molecular Assistant in Drug Discovery
-Codes for our paper
+Codes for our paper *InstructMol: Multi-Modal Integration for Building a Versatile and Reliable Molecular Assistant in Drug Discovery*
 
 <!-- *Visual instruction tuning towards large language and vision models with GPT-4 level capabilities.*-->
 
-<!--[[Project Page](https://llava-vl.github.io/)] [[Paper](https://arxiv.org/abs/2304.08485)] [[Demo](https://llava.hliu.cc/)]  [[Data](https://github.com/haotian-liu/LLaVA/blob/main/docs/Data.md)] [[Model Zoo](https://github.com/haotian-liu/LLaVA/blob/main/docs/MODEL_ZOO.md)] -->
+[[Project Page](https://idea-xl.github.io/InstructMol/)] [[Paper](https://arxiv.org/pdf/2311.16208.pdf)]
 
 ## Overview
 <p align="center">
@@ -120,14 +120,16 @@ See [Evaluation.md](Evaluation.md) for detailed instructions on how to evaluate 
 
 ## Citation
 If you find InstructMol useful for your your research and applications, please cite using this BibTeX:
-<!-- ```bibtex
-@misc{liu2023llava,
-      title={Visual Instruction Tuning}, 
-      author={Liu, Haotian and Li, Chunyuan and Wu, Qingyang and Lee, Yong Jae},
-      publisher={arXiv:2304.08485},
+```bibtex
+@misc{cao2023instructmol,
+      title={InstructMol: Multi-Modal Integration for Building a Versatile and Reliable Molecular Assistant in Drug Discovery}, 
+      author={He Cao and Zijing Liu and Xingyu Lu and Yuan Yao and Yu Li},
       year={2023},
+      eprint={2311.16208},
+      archivePrefix={arXiv},
+      primaryClass={q-bio.BM}
 }
-``` -->
+```
 
 ## Acknowledgement
 
