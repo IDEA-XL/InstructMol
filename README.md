@@ -1,9 +1,5 @@
 # InstructMol: Multi-Modal Integration for Building a Versatile and Reliable Molecular Assistant in Drug Discovery
-Codes for our paper *InstructMol: Multi-Modal Integration for Building a Versatile and Reliable Molecular Assistant in Drug Discovery*
 
-<!-- *Visual instruction tuning towards large language and vision models with GPT-4 level capabilities.*-->
-
-[[Project Page](https://idea-xl.github.io/InstructMol/)] [[Paper](https://arxiv.org/pdf/2311.16208.pdf)]
 
 ## Overview
 <p align="center">
@@ -17,13 +13,6 @@ The diagram presented below provides an overview of the architectural design of 
     <a> <img src="assets/static/overview.png" width="80%"> </a>
 </p>
 
-## Release
-- [2023/11/27] 🔥 We first release our code (including training and evaluation scripts).
-
-
-[![Code License](https://img.shields.io/badge/Code%20License-Apache_2.0-green.svg)](https://github.com/tatsu-lab/stanford_alpaca/blob/main/LICENSE)
-[![Data License](https://img.shields.io/badge/Data%20License-CC%20By%20NC%204.0-red.svg)](https://github.com/tatsu-lab/stanford_alpaca/blob/main/DATA_LICENSE)
-**Usage and License Notices**: The data, code and checkpoint is intended and licensed for research use only. They are also restricted to uses that follow the license agreement of LLaMA, Vicuna, LLaVA, Mol-Instructions and GPT-4. The dataset is CC BY NC 4.0 (allowing only non-commercial use) and models trained using the dataset should not be used outside of research purposes.
 
 
 ## Contents
@@ -82,12 +71,6 @@ cd .. # back to the root directory
     mv YOUR_PATH_TO_graphmvp.pth checkpoints/
     ```
 
-### InstructMol Weights
-* TODO: coming soon
-
-## Dataset
-* TODO: coming soon
-
 ## CLI Inference
 Chat with InstructMol without the need of Gradio interface. 
 ```Shell
@@ -117,21 +100,3 @@ You can train all specific tasks combine together [finetune_all.sh](scripts/all/
 
 ## Evaluation
 See [Evaluation.md](Evaluation.md) for detailed instructions on how to evaluate the model.
-
-## Citation
-If you find InstructMol useful for your your research and applications, please cite using this BibTeX:
-```bibtex
-@misc{cao2023instructmol,
-      title={InstructMol: Multi-Modal Integration for Building a Versatile and Reliable Molecular Assistant in Drug Discovery}, 
-      author={He Cao and Zijing Liu and Xingyu Lu and Yuan Yao and Yu Li},
-      year={2023},
-      eprint={2311.16208},
-      archivePrefix={arXiv},
-      primaryClass={q-bio.BM}
-}
-```
-
-## Acknowledgement
-
-- [Vicuna](https://github.com/lm-sys/FastChat): the main base-LLM we used.
-- [LLaVA](https://github.com/haotian-liu/LLaVA/tree/main): the codebase we built upon.
